@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas demo6 - Arc</title>
+</head>
+<body>
+    <canvas id="demo" width="500" height="500"></canvas>
+    <script>
+        const canvas = document.querySelector('#demo');
+        const ctx = canvas.getContext('2d');
+
+        for (let i=0; i<4; i++) {
+            for(let j=0; j<3; j++) {
+                ctx.beginPath();
+                const x = 25 + j * 50;
+                const y = 25 + i * 50;
+                const radius = 20;
+                const startAngle = 0;
+                const endAngle = Math.PI + (Math.PI * j) /2;
+                const anticlockwise = i % 2 === 0 ? false : true;
+
+                ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise);
+
+                if (i>1) {
+                    ctx.fill();
+                } else {
+                    ctx.stroke();
+                }
+            }
+        }
+    </script>
+</body>
+</html>

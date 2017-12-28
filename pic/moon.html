@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Moon</title>
+</head>
+<body>
+    <canvas id="moon" width=1000 height=800></canvas>
+    <script>
+        const canvas = document.querySelector('#moon');
+        const ctx = canvas.getContext('2d');
+
+        
+        for (let i=0; i<8; i++) {
+            ctx.beginPath();
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = '#a3ffe4'
+            ctx.arc(100*(i+1), 50, 40, 0, Math.PI*(2/8*(i+1)));
+            ctx.stroke();
+        }
+
+        for (let i=0; i<8; i++) {
+            ctx.beginPath();
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = '#a3ffe4'
+            ctx.arc(100*(i+1), 150, 40, 0, Math.PI*(2/8*(i+1)), true);
+            ctx.stroke();
+        }
+
+        for (let i=0; i<8; i++) {
+            ctx.beginPath();
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = '#a3ffe4'
+            ctx.arc(100*(i+1), 250, 40, 0, Math.PI*(2/8*(i+1)));
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        for (let i=0; i<8; i++) {
+            ctx.beginPath();
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = '#a3ffe4'
+            ctx.arc(100*(i+1), 350, 40, 0, Math.PI*(2/8*(i+1)), true);
+            ctx.closePath();
+            ctx.stroke();
+        }
+
+        for (let i=0; i<8; i++) {
+            ctx.beginPath();
+            ctx.fillStyle = '#a3ffe4'
+            ctx.arc(100*(i+1), 450, 40, 0, Math.PI*(2/8*(i+1)));
+            ctx.fill();
+        }
+
+        for (let i=0; i<8; i++) {
+            ctx.beginPath();
+            ctx.fillStyle = '#a3ffe4'
+            ctx.arc(100*(i+1), 550, 40, 0, Math.PI*(2/8*(i+1)), true);
+            ctx.closePath();
+            ctx.fill();
+        }
+    </script>
+</body>
+</html>

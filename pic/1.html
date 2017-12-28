@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>七巧板</title>
+    <style>
+        #paper {
+            display: block;
+            margin: 0 auto;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="paper" width=600 height=600></canvas>
+    <script>
+        const canvas = document.querySelector('#paper');
+        const ctx = canvas.getContext('2d');
+
+        const options = [
+            {p:[{x:0, y:0},{x:300, y:300},{x:0, y: 600}], color: 'rgb(236, 64, 122)'},
+            {p:[{x:0, y:0},{x:600, y:0},{x:300, y: 300}], color: 'rgb(41, 182, 246)'},
+            {p:[{x:600, y:0},{x:600, y:300},{x:450, y: 450},{x: 450, y: 150}], color: 'rgb(255, 112, 67)'},
+            {p:[{x:450, y:150},{x:450, y:450},{x:300, y: 300}], color: 'rgb(255, 238, 88)'},
+            {p:[{x:300, y:300},{x:450, y:450},{x:300, y: 600}, {x:150, y: 450}], color: 'rgb(255, 167, 38)'},
+            {p:[{x:0, y:600},{x:300, y:600},{x:150, y: 450}], color: 'rgb(38, 166, 154)'},
+            {p:[{x:300, y:600},{x:600, y:300},{x:600, y: 600}], color: 'rgb(171, 71, 188)'},
+
+        ];
+
+        for (let i=0, len=options.length; i<len; i++) {
+            draw(options[i], ctx);
+        }
+
+        function draw(option, context) {
+            const point = option.p;
+            const color = option.color;
+
+            context.beginPath();
+            context.moveTo(point[0].x, point[0].y);
+
+            for (let i=1,len=point.length; i<len; i++) {
+                context.lineTo(point[i].x, point[i].y);
+            }
+
+            context.closePath();
+            context.fillStyle = color;
+            context.fill();
+        }
+    </script>
+</body>
+</html>
