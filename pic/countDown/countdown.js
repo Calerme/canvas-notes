@@ -6,7 +6,28 @@ const config = {
     radius: 8,
 };
 
-const endTime = new Date(2017, 11, 29);
+// 自适应
+function response(canvas) {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    canvas.width = config.CVS_WIDTH = width;
+    canvas.height = config.CVS_HEIGHT = height;
+
+    // 内容占 4 / 5
+    config.radius = Math.floor(width * 4 / 5 / 107)
+
+    config.MARGIN_LEFT = Math.floor(width / 10);
+    config.MARGIN_TOP = Math.round(height / 5);
+}
+
+// window.addEventListener('resize', response, false);
+
+const endTime = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate() + 1,
+    );
 let curShowTimeSeconds = 0;
 
 const balls = [];
@@ -16,8 +37,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const canvas = document.querySelector('#canvas'),
           ctx = canvas.getContext('2d');
 
-    canvas.width = config.CVS_WIDTH;
-    canvas.height = config.CVS_HEIGHT;
+    // canvas.width = config.CVS_WIDTH;
+    // canvas.height = config.CVS_HEIGHT;
+    response(canvas);
 
     curShowTimeSeconds = getCurrentShowTimeSeconds();
     render(ctx);
@@ -25,10 +47,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const circle = function () {
         render(ctx); // 绘制
         update(ctx); // 数据改变
-        setTimeout(circle, 1000);
+        setTimeout(circle, 16);
     };
 
-    setTimeout(circle, 1000);
+    setTimeout(circle, 16);
 });
 
 function getCurrentShowTimeSeconds() {
@@ -54,6 +76,14 @@ function render(context) {
     renderDigit(config.MARGIN_LEFT + (config.radius+1) * 2 * 39, config.MARGIN_TOP, parseInt(seconds/10), context);
     renderDigit(config.MARGIN_LEFT + (config.radius+1) * 2 * 46.5, config.MARGIN_TOP, parseInt(seconds%10), context);
 
+    // 渲染小球
+    for (let i=0; i<balls.length; i++) {
+        context.beginPath();
+        context.fillStyle = balls[i].color;
+        context.arc(balls[i].x, balls[i].y, config.radius, 0, 2*Math.PI);
+        context.closePath();
+        context.fill();
+    }
 }
 
 function renderDigit(x, y, num, ctx) {
@@ -109,9 +139,9 @@ function update(context) {
         }
 
         curShowTimeSeconds = nextShowTimeSeconds;
-
-        updateBalls(context);
     }
+
+    updateBalls(context);
 }
 
 function  addBalls(x, y, num) {
@@ -133,12 +163,23 @@ function  addBalls(x, y, num) {
 }
 
 function updateBalls(context) {
-    while(balls.length) {
-        const ball = balls.pop();
-        context.beginPath()
-        context.fillStyle = ball.color;
-        context.arc(ball.x, ball.y, config.radius, 0, 2*Math.PI)
-        context.closePath();
-        context.fill();
+    for (let i=0; i<balls.length; i++) {
+        balls[i].x += balls[i].vx;
+        balls[i].y += balls[i].vy;
+        balls[i].vy += balls[i].g;
+
+        // 碰撞检测
+        if (context.canvas.height - config.radius <= balls[i].y) {
+            balls[i].y = context.canvas.height;
+            balls[i].vy = - balls[i].vy * 0.75;
+        }
+
+        // 超出画面外的小球删除，以优化性能
+        if (balls[i].x + config.radius <= 0 || // 超出画在左侧
+            balls[i].x - config.radius >= context.canvas.width) { // 超出画面右侧
+            
+            balls.splice(i, 1); // 删除小球
+            i--; // 后面的小球前挪一位，所以下次遍历还是遍历的索xh
+        }
     }
 }

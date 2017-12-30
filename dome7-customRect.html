@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Demo7 - 自定义矩形绘制函数</title>
+</head>
+<body>
+    <canvas id="canvas" width="1024" height="768"></canvas>
+    <script>
+        const canvas = document.querySelector('#canvas');
+        const context = canvas.getContext('2d');
+
+        drawRect(context, 10, 10, 300, 300, undefined, 'blue');
+
+        function drawRect(context, x, y, width, height, fillColor = 'red', strokeCollor) {
+            context.beginPath();
+            context.moveTo(x, y);
+            context.lineTo(x + width, y);
+            context.lineTo(x + width, y + height);
+            context.lineTo(x, y + height);
+            context.closePath();
+
+            context.lineWidth = 10;
+            context.fillStyle = fillColor;
+            context.strokeStyle = strokeCollor || null;
+
+            context.fill();
+            strokeCollor && context.stroke();
+
+        }
+    </script>
+</body>
+</html>
